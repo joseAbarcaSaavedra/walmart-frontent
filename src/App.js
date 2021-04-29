@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from 'react'
+import { TopBarContainer } from 'containers/TopBar'
+import { Router } from '@reach/router'
+
+import './App.css'
+
+const ProductsPage = React.lazy(() =>
+  import('./pages/Products').then((module) => ({
+    default: module.ProductsPage,
+  }))
+)
+const ShoppingCartPage = React.lazy(() =>
+  import('./pages/ShoppingCart').then((module) => ({
+    default: module.ShoppingCartPage,
+  }))
+)
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <TopBarContainer />
+      <Suspense fallback={<div>cargando....</div>}>
+        <Router>
+          <ProductsPage path='/' />
+          <ShoppingCartPage path='/carro' />
+        </Router>
+      </Suspense>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
