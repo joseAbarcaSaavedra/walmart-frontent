@@ -1,7 +1,8 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useContext, useEffect } from 'react'
 import { TopBarContainer } from 'containers/TopBar'
 import { Router } from '@reach/router'
-import { GlobalState } from 'context/GlobalState'
+import { CartContext } from 'context/CartContext'
+import { list as getDiscountsByBrand } from '@core/providers/Discounts'
 import './App.css'
 
 const ProductsPage = React.lazy(() =>
@@ -16,17 +17,27 @@ const ShoppingCartPage = React.lazy(() =>
 )
 
 function App() {
+  const { updateDiscountsByBrand } = useContext(CartContext)
+
+  useEffect(() => {
+    async function fetchDiscounts() {
+      const discounts = await getDiscountsByBrand()
+      updateDiscountsByBrand(discounts)
+    }
+
+    // Load discounts by brand catalog
+    fetchDiscounts()
+  }, [])
+
   return (
     <div className='App'>
-      <GlobalState>
-        <TopBarContainer />
-        <Suspense fallback={<div>cargando....</div>}>
-          <Router>
-            <ProductsPage path='/' />
-            <ShoppingCartPage path='/carro' />
-          </Router>
-        </Suspense>
-      </GlobalState>
+      <TopBarContainer />
+      <Suspense fallback={<div>cargando....</div>}>
+        <Router>
+          <ProductsPage path='/' />
+          <ShoppingCartPage path='/carro' />
+        </Router>
+      </Suspense>
     </div>
   )
 }

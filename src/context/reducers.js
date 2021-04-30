@@ -3,14 +3,22 @@ export const REMOVE_PRODUCT = 'REMOVE_PRODUCT'
 export const UPDATE_DISCOUNTS_BY_BRAND = 'UPDATE_DISCOUNTS_BY_BRAND'
 const addProductToCart = (product, state) => {
   try {
-    const products = state.products
+    const { products } = state
     // add to cart product list
     products.push(product)
 
     // TODO - update cart discounts
     const discounts = []
 
-    return { ...state, products, discounts }
+    const suggestedBrand = null
+
+    return {
+      ...state,
+      products,
+      discounts,
+      totalProducts: products.length,
+      suggestedBrand,
+    }
   } catch (e) {
     console.log('error', e)
     return state
@@ -19,15 +27,27 @@ const addProductToCart = (product, state) => {
 
 const removeProductFromCart = (product, state) => {
   try {
-    const products = state.products
-    const productIndex = products.findIndex((i) => i.id === product.id)
+    const { products, totalProducts } = state
+    if (totalProducts > 0) {
+      const productIndex = products.findIndex((i) => i.id === product.id)
 
-    // remove from cart product list
-    products.splice(productIndex, 1)
+      // remove from cart product list
+      products.splice(productIndex, 1)
 
-    // TODO - update cart discounts
-    const discounts = []
-    return { ...state, products, discounts }
+      // TODO - update cart discounts
+      const discounts = []
+
+      const suggestedBrand = null
+      return {
+        ...state,
+        products,
+        discounts,
+        totalProducts: products.length,
+        suggestedBrand,
+      }
+    } else {
+      return state
+    }
   } catch (e) {
     console.log('error', e)
     return state

@@ -55,7 +55,8 @@ export const list = async (filter = {}) => {
     )
   } catch (e) {
     console.log('error', e)
-    return Promise.reject(e)
+    // Prevent error on fetch discounts
+    return Promise.resolve([])
   }
 }
 
