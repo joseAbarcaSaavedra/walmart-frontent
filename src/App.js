@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import { TopBarContainer } from 'containers/TopBar'
 import { Router } from '@reach/router'
-
+import { GlobalState } from 'context/GlobalState'
 import './App.css'
 
 const ProductsPage = React.lazy(() =>
@@ -18,13 +18,15 @@ const ShoppingCartPage = React.lazy(() =>
 function App() {
   return (
     <div className='App'>
-      <TopBarContainer />
-      <Suspense fallback={<div>cargando....</div>}>
-        <Router>
-          <ProductsPage path='/' />
-          <ShoppingCartPage path='/carro' />
-        </Router>
-      </Suspense>
+      <GlobalState>
+        <TopBarContainer />
+        <Suspense fallback={<div>cargando....</div>}>
+          <Router>
+            <ProductsPage path='/' />
+            <ShoppingCartPage path='/carro' />
+          </Router>
+        </Suspense>
+      </GlobalState>
     </div>
   )
 }
