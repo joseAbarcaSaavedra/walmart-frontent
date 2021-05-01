@@ -24,7 +24,7 @@ export const ProductListContainer = () => {
         setProducts(list)
 
         const cart = await getCartSummary()
-        console.log('cart!!!', cart)
+        //console.log('cart!!!', cart)
 
         setIsLoading(false)
         setError('')
@@ -38,10 +38,10 @@ export const ProductListContainer = () => {
   }, [])
 
   const onAddProduct = (product) => {
-    console.log('onAddProduct', product)
+    //console.log('onAddProduct', product)
     addProductToCart(product)
   }
-  /* console.log('products', products) */
+  /* //console.log('products', products) */
   return (
     <ProductListContent>
       {isLoading && <CircularProgress />}

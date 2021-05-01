@@ -1,19 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItemText from '@material-ui/core/ListItemText'
-import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
-import FormGroup from '@material-ui/core/FormGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
 import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import FolderIcon from '@material-ui/icons/Folder'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -27,16 +15,33 @@ const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
+  summary: {
+    fontWeight: 'bold',
+  },
+  discount: {
+    color: 'green',
+    fontWeight: 'bold',
+  },
 }))
 
 function ccyFormat(num) {
   return `${num.toFixed(2)}`
 }
 
-export const Cart = ({ products = [], discounts = [], onRemoveProduct }) => {
+export const Cart = ({
+  products = [],
+  discounts = [],
+  summary = {
+    subTotalValue: 0,
+    totalDiscounts: 0,
+    totalValue: 0,
+    totalProducts: 0,
+  },
+  onRemoveProduct,
+}) => {
   const classes = useStyles()
-  console.log('products!', products)
-  console.log('discounts', discounts)
+  //console.log('products!', products)
+  //console.log('discounts', discounts)
   return (
     <div>
       <Grid container spacing={2}>
@@ -73,20 +78,44 @@ export const Cart = ({ products = [], discounts = [], onRemoveProduct }) => {
                     </TableRow>
                   ))}
 
-                  {/*  <TableRow>
-                    <TableCell rowSpan={3} />
-                    <TableCell colSpan={2}>Subtotal</TableCell>
-                    <TableCell align='right'>{ccyFormat(222)}</TableCell>
-                  </TableRow>
                   <TableRow>
-                    <TableCell>Tax</TableCell>
-                    <TableCell align='right'>{ccyFormat(222)}</TableCell>
-                    <TableCell align='right'>{ccyFormat(22)}</TableCell>
+                    <TableCell component='th' scope='row'>
+                      Subtotal
+                    </TableCell>
+                    <TableCell align='right' />
+                    <TableCell align='right'>{summary.subTotalValue}</TableCell>
+                    <TableCell align='right' />
                   </TableRow>
+                  {discounts.map((d, key) => (
+                    <TableRow key={key}>
+                      <TableCell
+                        component='th'
+                        scope='row'
+                        className={classes.discount}
+                      >
+                        Descuento - {d.discount.brand}
+                      </TableCell>
+                      <TableCell align='right' />
+                      <TableCell align='right' className={classes.discount}>
+                        {d.discount.discount}
+                      </TableCell>
+                      <TableCell align='right' />
+                    </TableRow>
+                  ))}
                   <TableRow>
-                    <TableCell colSpan={2}>Total</TableCell>
-                    <TableCell align='right'>{ccyFormat(333)}</TableCell>
-                  </TableRow> */}
+                    <TableCell
+                      component='th'
+                      scope='row'
+                      className={classes.summary}
+                    >
+                      Total a Pagar
+                    </TableCell>
+                    <TableCell align='right' />
+                    <TableCell align='right' className={classes.summary}>
+                      {summary.totalValue}
+                    </TableCell>
+                    <TableCell align='right' />
+                  </TableRow>
                 </TableBody>
               </Table>
             </TableContainer>

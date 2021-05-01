@@ -4,7 +4,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import { StyledBadge } from './styles'
 
 export const CartIconWithBadge = ({ items = 0 }) => {
-  console.log('items', items)
+  //console.log('items', items)
   return (
     <div>
       <IconButton aria-label='cart'>

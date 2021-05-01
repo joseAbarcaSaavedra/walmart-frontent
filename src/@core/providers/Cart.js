@@ -64,7 +64,7 @@ export const getSummary = async () => {
       activeDiscount ? activeDiscount.priority : MAX_SAFE_INTEGER
     )
 
-    console.log('suggestedBrand', suggestedBrand)
+    //console.log('suggestedBrand', suggestedBrand)
 
     return Promise.resolve({
       products,
@@ -91,7 +91,7 @@ const getSuggestedBrandDiscount = (
   discountsByBrand = [],
   activeDiscountPiority = MAX_SAFE_INTEGER
 ) => {
-  console.log('activeDiscountPiority', activeDiscountPiority)
+  //console.log('activeDiscountPiority', activeDiscountPiority)
 
   const sortedDiscounts = discountsByBrand
     .filter((d) => d.priority < activeDiscountPiority)
@@ -152,7 +152,7 @@ const cartProductDiscountGroupedByBrand = async (products = []) => {
     })
     return brandDiscounts
   } catch (e) {
-    console.log('[cartProductDiscountGroupedByBrand] error', e)
+    //console.log('[cartProductDiscountGroupedByBrand] error', e)
     return {}
   }
 }

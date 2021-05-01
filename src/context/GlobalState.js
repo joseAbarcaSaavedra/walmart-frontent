@@ -12,10 +12,25 @@ export const GlobalState = ({ children }) => {
     products: [],
     totalProducts: 0,
     discounts: [],
+    subTotalValue: 0,
+    totalDiscounts: 0,
+    suggestedDiscount: null,
+    activeDiscount: null,
+    totalValue: 0,
     discountsByBrand: [],
   })
 
-  const { products, discounts, totalProducts, discountsByBrand } = cartState
+  const {
+    products,
+    discounts,
+    totalProducts,
+    discountsByBrand,
+    subTotalValue,
+    totalValue,
+    totalDiscounts,
+    activeDiscount,
+    suggestedDiscount,
+  } = cartState
 
   const addProductToCart = (product) => {
     dispatch({ type: ADD_PRODUCT, product })
@@ -32,7 +47,12 @@ export const GlobalState = ({ children }) => {
       value={{
         products,
         totalProducts,
+        subTotalValue,
+        totalDiscounts,
+        suggestedDiscount,
+        activeDiscount,
         discounts,
+        totalValue,
         discountsByBrand,
         addProductToCart,
         removeProductFromCart,

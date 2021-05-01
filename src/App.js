@@ -30,7 +30,7 @@ function App() {
     fetchDiscounts()
   }, [])
 
-  console.log('products!!!', products)
+  //console.log('products!!!', products)
   return (
     <div className='App'>
       <TopBarContainer />
