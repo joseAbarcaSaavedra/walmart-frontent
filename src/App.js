@@ -3,6 +3,7 @@ import { TopBarContainer } from 'containers/TopBar'
 import { Router } from '@reach/router'
 import { CartContext } from 'context/CartContext'
 import { list as getDiscountsByBrand } from '@core/providers/Discounts'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import './App.css'
 
 const ProductsPage = React.lazy(() =>
@@ -10,14 +11,14 @@ const ProductsPage = React.lazy(() =>
     default: module.ProductsPage,
   }))
 )
-const ShoppingCartPage = React.lazy(() =>
-  import('./pages/ShoppingCart').then((module) => ({
-    default: module.ShoppingCartPage,
+const CartPage = React.lazy(() =>
+  import('./pages/Cart').then((module) => ({
+    default: module.CartPage,
   }))
 )
 
 function App() {
-  const { updateDiscountsByBrand } = useContext(CartContext)
+  const { updateDiscountsByBrand, products } = useContext(CartContext)
 
   useEffect(() => {
     async function fetchDiscounts() {
@@ -25,17 +26,18 @@ function App() {
       updateDiscountsByBrand(discounts)
     }
 
-    // Load discounts by brand catalog
+    // Load discounts by brand
     fetchDiscounts()
   }, [])
 
+  console.log('products!!!', products)
   return (
     <div className='App'>
       <TopBarContainer />
-      <Suspense fallback={<div>cargando....</div>}>
+      <Suspense fallback={<CircularProgress />}>
         <Router>
           <ProductsPage path='/' />
-          <ShoppingCartPage path='/carro' />
+          <CartPage path='/carro' />
         </Router>
       </Suspense>
     </div>

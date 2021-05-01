@@ -6,6 +6,7 @@ export const CartContext = createContext({
   discounts: [],
   discountsByBrand: [],
   suggestedBrand: null,
+  activeDiscount: null, // TODO- implement!!
   addProductToCart: (product) => {},
   removeProductToCart: (product) => {},
   updateDiscountsByBrand: (discountsByBrand) => {},

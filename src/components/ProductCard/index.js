@@ -7,8 +7,7 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 
-const DEFAULT_IMAGE =
-  'https://www.lider.cl/catalogo/images/catalogo_no_photo.jpg'
+const DEFAULT_IMAGE = 'www.lider.cl/catalogo/images/catalogo_no_photo.jpg'
 
 const useStyles = makeStyles({
   root: {
@@ -21,7 +20,6 @@ const useStyles = makeStyles({
 export const ProductCard = ({ data, onAddProduct = () => {} }) => {
   const classes = useStyles()
   const {
-    id = 0,
     brand = '',
     description = '',
     image = DEFAULT_IMAGE,
@@ -33,7 +31,7 @@ export const ProductCard = ({ data, onAddProduct = () => {} }) => {
         <CardActionArea>
           <CardMedia
             className={classes.media}
-            image={DEFAULT_IMAGE}
+            image={`https://${image}`}
             title={brand}
           />
           <CardContent>
@@ -43,13 +41,18 @@ export const ProductCard = ({ data, onAddProduct = () => {} }) => {
             <Typography variant='body2' color='textSecondary' component='p'>
               {brand}
             </Typography>
+            <p>${price}</p>
           </CardContent>
         </CardActionArea>
         <CardActions>
           {/*  <Button size='small' color='primary'>
             Share
           </Button> */}
-          <Button size='small' color='primary' onClick={() => onAddProduct()}>
+          <Button
+            size='small'
+            color='primary'
+            onClick={() => onAddProduct(data)}
+          >
             COMPRAR
           </Button>
         </CardActions>

@@ -129,7 +129,7 @@ const cartProductDiscountGroupedByBrand = async (products = []) => {
       }
 
       // Add product to products array
-      brandDiscountSummary[brand].products.push(product)
+      brandDiscountSummary[brand].products.push(product) // TODO - Group same products
 
       // add product amount
       brandDiscountSummary[brand].totalAmount += product.price

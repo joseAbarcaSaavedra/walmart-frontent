@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -6,13 +6,16 @@ import { list as getProductList } from '@core/providers/Products'
 import { getSummary as getCartSummary } from '@core/providers/Cart'
 
 import { ProductCard } from 'components/ProductCard'
+
+import { CartContext } from 'context/CartContext'
+
 import { ProductListContent } from './styles'
 
 export const ProductListContainer = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [products, setProducts] = useState([])
   const [error, setError] = useState('')
-
+  const { addProductToCart } = useContext(CartContext)
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -35,7 +38,8 @@ export const ProductListContainer = () => {
   }, [])
 
   const onAddProduct = (product) => {
-    console.log('onAddProduct')
+    console.log('onAddProduct', product)
+    addProductToCart(product)
   }
   /* console.log('products', products) */
   return (

@@ -4,7 +4,7 @@ import { Link } from '@reach/router'
 import { CartIconWithBadge } from 'components/CartIconWithBadge'
 
 import { HeaderSection, Image } from './styles'
-export const Header = ({ items = 2 }) => {
+export const Header = ({ items = 0 }) => {
   return (
     <HeaderSection>
       <Grid container spacing={0}>
