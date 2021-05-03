@@ -1,6 +1,8 @@
 import React, { Fragment, useContext } from 'react'
 import { CartContext } from 'context/CartContext'
 import { Cart } from 'components/Cart'
+import Button from '@material-ui/core/Button'
+import { ButtonContainer } from './styles'
 export const CartContainer = () => {
   const {
     products,
@@ -25,6 +27,13 @@ export const CartContainer = () => {
         summary={summary}
         onRemoveProduct={removeProductFromCart}
       />
+      <ButtonContainer>
+        {totalProducts > 0 && (
+          <Button variant='contained' color='primary'>
+            COMPRAR
+          </Button>
+        )}
+      </ButtonContainer>
     </Fragment>
   )
 }

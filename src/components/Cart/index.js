@@ -1,5 +1,4 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import Grid from '@material-ui/core/Grid'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -11,22 +10,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 
-const useStyles = makeStyles((theme) => ({
-  table: {
-    minWidth: 650,
-  },
-  summary: {
-    fontWeight: 'bold',
-  },
-  discount: {
-    color: 'green',
-    fontWeight: 'bold',
-  },
-}))
-
-function ccyFormat(num) {
-  return `${num.toFixed(2)}`
-}
+import { useStyles } from './styles'
 
 export const Cart = ({
   products = [],
@@ -40,8 +24,6 @@ export const Cart = ({
   onRemoveProduct,
 }) => {
   const classes = useStyles()
-  //console.log('products!', products)
-  //console.log('discounts', discounts)
   return (
     <div>
       <Grid container spacing={2}>
@@ -80,7 +62,7 @@ export const Cart = ({
 
                   <TableRow>
                     <TableCell component='th' scope='row'>
-                      Subtotal
+                      Subtotal de productos
                     </TableCell>
                     <TableCell align='right' />
                     <TableCell align='right'>{summary.subTotalValue}</TableCell>
@@ -93,7 +75,7 @@ export const Cart = ({
                         scope='row'
                         className={classes.discount}
                       >
-                        Descuento - {d.discount.brand}
+                        Descuento por Marca - {d.discount.brand}
                       </TableCell>
                       <TableCell align='right' />
                       <TableCell align='right' className={classes.discount}>

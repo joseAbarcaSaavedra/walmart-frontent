@@ -2,30 +2,74 @@ import React, { useState, useEffect, useContext } from 'react'
 import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import { list as getProductList } from '@core/providers/Products'
-import { getSummary as getCartSummary } from '@core/providers/Cart'
-
-import { ProductCard } from 'components/ProductCard'
-
 import { CartContext } from 'context/CartContext'
+import { list as getProductList } from '@core/providers/Products'
+
+import {
+  DiscountAlert,
+  getSuggestedDiscountMessage,
+  getAppliedDiscountMessage,
+} from 'components/DiscountAlert'
+import { ProductCard } from 'components/ProductCard'
 
 import { ProductListContent } from './styles'
 
 export const ProductListContainer = () => {
   const [isLoading, setIsLoading] = useState(true)
+  const [message, setMessage] = useState('')
+  const [lastProductAdded, setLastProductAdded] = useState(null)
   const [products, setProducts] = useState([])
   const [error, setError] = useState('')
-  const { addProductToCart } = useContext(CartContext)
+
+  const {
+    addProductToCart,
+    suggestedDiscount,
+    activeDiscount,
+    discounts,
+  } = useContext(CartContext)
+
+  useEffect(() => {
+    let msg = getSuggestedDiscountMessage({
+      lastProductAdded,
+      suggestedDiscount,
+      discounts,
+    })
+    if (msg !== '') setMessage(msg)
+  }, [suggestedDiscount, discounts, lastProductAdded])
+
+  useEffect(() => {
+    let msg = getAppliedDiscountMessage({
+      activeDiscount,
+      lastProductAdded,
+      suggestedDiscount,
+      discounts,
+    })
+    if (
+      activeDiscount &&
+      suggestedDiscount &&
+      suggestedDiscount.priority < activeDiscount.priority
+    ) {
+      msg = msg.concat(
+        getSuggestedDiscountMessage(
+          {
+            lastProductAdded,
+            suggestedDiscount,
+            discounts,
+          },
+          true
+        )
+      )
+    }
+    if (msg !== '') setMessage(msg)
+  }, [activeDiscount, discounts, lastProductAdded])
+
+  console.log('discounts', discounts)
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setIsLoading(true)
         const list = await getProductList()
         setProducts(list)
-
-        const cart = await getCartSummary()
-        //console.log('cart!!!', cart)
-
         setIsLoading(false)
         setError('')
       } catch (error) {
@@ -38,10 +82,9 @@ export const ProductListContainer = () => {
   }, [])
 
   const onAddProduct = (product) => {
-    //console.log('onAddProduct', product)
+    setLastProductAdded(product)
     addProductToCart(product)
   }
-  /* //console.log('products', products) */
   return (
     <ProductListContent>
       {isLoading && <CircularProgress />}
@@ -49,11 +92,17 @@ export const ProductListContainer = () => {
         <Grid container spacing={3}>
           {products.map((product, key) => (
             <Grid item xs={3} key={key}>
-              <ProductCard data={product} onAddProduct={onAddProduct} />
+              <ProductCard
+                data={product}
+                onAddProduct={onAddProduct}
+                suggestedDiscount={suggestedDiscount}
+              />
             </Grid>
           ))}
         </Grid>
       )}
+
+      <DiscountAlert message={message} onClose={() => setMessage('')} />
     </ProductListContent>
   )
 }
