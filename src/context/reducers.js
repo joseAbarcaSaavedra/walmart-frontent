@@ -17,9 +17,6 @@ const addProductToCart = (product, state) => {
 
     // Update amounts
     const subTotalValue = state.subTotalValue + product.price
-    //console.log('state', state)
-    //console.log('product', product)
-    console.log('subTotalValue', subTotalValue)
 
     const totalDiscounts = activeDiscount ? activeDiscount.discount.discount : 0
     const totalValue = subTotalValue - totalDiscounts
@@ -36,11 +33,10 @@ const addProductToCart = (product, state) => {
       activeDiscount,
     }
 
-    // console.log('newState', newState)
 
     return newState
   } catch (e) {
-    //console.log('error', e)
+    console.log('error', e)
     return state
   }
 }
@@ -85,7 +81,7 @@ const removeProductFromCart = (product, state) => {
       return state
     }
   } catch (e) {
-    //console.log('error', e)
+    console.log('error', e)
     return state
   }
 }
@@ -111,11 +107,9 @@ const discountsByProductsInCart = (products = [], state) => {
       activeDiscount ? activeDiscount.priority : MAX_SAFE_INTEGER
     )
 
-    //console.log('discountsGroupedByBrand', discounts)
-
     return { discounts, activeDiscount, suggestedDiscount }
   } catch (e) {
-    //console.log('error', e)
+    console.log('error', e)
     return { discounts: [], activeDiscount: null, suggestedDiscount: null }
   }
 }
@@ -136,8 +130,6 @@ const getSuggestedBrandDiscount = (
   discountsByBrand = [],
   activeDiscountPiority = MAX_SAFE_INTEGER
 ) => {
-  //console.log('activeDiscountPiority', activeDiscountPiority)
-
   const sortedDiscounts = discountsByBrand
     .filter((d) => d.priority < activeDiscountPiority)
     .sort((a, b) => a.priority - b.priority)
@@ -151,7 +143,7 @@ const updateDiscountsByBrand = (discountsByBrand, state) => {
   try {
     return { ...state, discountsByBrand }
   } catch (e) {
-    //console.log('error!', e)
+    console.log('error!', e)
     return state
   }
 }
@@ -208,7 +200,7 @@ const cartProductDiscountGroupedByBrand = (
     })
     return brandDiscounts
   } catch (e) {
-    //console.log('[cartProductDiscountGroupedByBrand] error', e)
+    console.log('[cartProductDiscountGroupedByBrand] error', e)
     return {}
   }
 }

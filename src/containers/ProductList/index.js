@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, Fragment } from 'react'
 import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 import { CartContext } from 'context/CartContext'
-import { list as getProductList } from '@core/providers/Products'
+import { GET_REQUEST } from 'providers/Api'
 
 import {
   DiscountAlert,
@@ -63,13 +63,12 @@ export const ProductListContainer = () => {
     if (msg !== '') setMessage(msg)
   }, [activeDiscount, discounts, lastProductAdded])
 
-  console.log('discounts', discounts)
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setIsLoading(true)
-        const list = await getProductList()
-        setProducts(list)
+        const productList = await GET_REQUEST('/products')
+        setProducts(productList.products)
         setIsLoading(false)
         setError('')
       } catch (error) {
@@ -87,7 +86,12 @@ export const ProductListContainer = () => {
   }
   return (
     <ProductListContent>
-      {isLoading && <CircularProgress />}
+      {isLoading && (
+        <Fragment>
+          <p>Cargando...</p>
+          <CircularProgress />
+        </Fragment>
+      )}
       {!isLoading && (
         <Grid container spacing={3}>
           {products.map((product, key) => (

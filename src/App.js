@@ -2,8 +2,9 @@ import React, { Suspense, useContext, useEffect } from 'react'
 import { TopBarContainer } from 'containers/TopBar'
 import { Router } from '@reach/router'
 import { CartContext } from 'context/CartContext'
-import { list as getDiscountsByBrand } from '@core/providers/Discounts'
 import CircularProgress from '@material-ui/core/CircularProgress'
+
+import { GET_REQUEST } from './providers/Api'
 import './App.css'
 
 const ProductsPage = React.lazy(() =>
@@ -22,15 +23,18 @@ function App() {
 
   useEffect(() => {
     async function fetchDiscounts() {
-      const discounts = await getDiscountsByBrand()
-      updateDiscountsByBrand(discounts)
+      try {
+        const { discounts } = await GET_REQUEST('/discounts')
+        updateDiscountsByBrand(discounts)
+      } catch (e) {
+        console.log('[ERROR]onGetDiscounts', e)
+      }
     }
 
     // Load discounts by brand
     fetchDiscounts()
   }, [])
 
-  //console.log('products!!!', products)
   return (
     <div className='App'>
       <TopBarContainer />
