@@ -72,7 +72,10 @@ export const ProductListContainer = () => {
         setIsLoading(false)
         setError('')
       } catch (error) {
-        setError('[UPS]: ¡Ocurrio un problema al obtener los productos!')
+        setError(
+          error.message ||
+            '[UPS]: ¡Ocurrio un problema al obtener los productos!'
+        )
         setProducts([])
         setIsLoading(false)
       }
@@ -92,6 +95,7 @@ export const ProductListContainer = () => {
           <CircularProgress />
         </Fragment>
       )}
+      {error && <p>{error}</p>}
       {!isLoading && (
         <Grid container spacing={3}>
           {products.map((product, key) => (
