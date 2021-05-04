@@ -33,7 +33,6 @@ const addProductToCart = (product, state) => {
       activeDiscount,
     }
 
-
     return newState
   } catch (e) {
     console.log('error', e)
@@ -169,7 +168,7 @@ const cartProductDiscountGroupedByBrand = (
       // Brand Discount Summary
       brandDiscountSummary[brand] = brandDiscountSummary[brand] || {
         idx: brandDiscounts.length,
-        discount: brandDiscount,
+        discount: brandDiscount || { threshold: 0 },
         products: [],
         priority: discountsByBrand.indexOf(brandDiscount), // Discount order sorted by mayor value key
         totalAmount: 0,
